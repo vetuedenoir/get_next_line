@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 16:01:29 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/09 18:47:53 by kscordel         ###   ########.fr       */
+/*   Created: 2023/01/09 17:33:55 by kscordel          #+#    #+#             */
+/*   Updated: 2023/01/09 17:54:08 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,21 @@ char	*ft_read_file(char *stash, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[1024];
 	char		*line;
 	size_t		index;
 	size_t		t;
 
 	index = 0;
 	t = 0;
-	if (stash)
-		index = ft_testreturn(stash);
+	if (stash[fd])
+		index = ft_testreturn(stash[fd]);
 	if (!index)
-		stash = ft_read_file(stash, fd);
-	if (stash)
-		line = ft_copy(stash, &t);
+		stash[fd] = ft_read_file(stash[fd], fd);
+	if (stash[fd])
+		line = ft_copy(stash[fd], &t);
 	else
 		return (NULL);
-	stash = ft_clean(stash, t);
+	stash[fd] = ft_clean(stash[fd], t);
 	return (line);
 }
