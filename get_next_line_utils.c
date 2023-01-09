@@ -6,19 +6,19 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:13:42 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/06 19:36:53 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:52:11 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-char	*movechar(char *str, unsigned int index)
+char	*movechar(char *str, int index)
 {
-	int	x;
+	unsigned int	x;
 
 	x = 0;
-	while (str[index] != '\0')
+	while (str[index])
 	{
 		str[x++] = str[index++];	
 	}
@@ -26,7 +26,7 @@ char	*movechar(char *str, unsigned int index)
 	return (str);
 }
 
-char	*ft_add_buf(char *stash, char *buf, int	index)
+char	*ft_add_buf(char *stash, char *buf, int	readed)
 {
 	int		t;
 	int		i;
@@ -42,10 +42,10 @@ char	*ft_add_buf(char *stash, char *buf, int	index)
 	}
 	i = -1;
 	p = -1;
-	t = ft_strlen(stash) + index;	
+	t = ft_strlen(stash) + readed;
 	str = malloc(sizeof(char) * (t + 1));
 	if (str == NULL)
-		return (NULL);
+		return (free(stash), NULL);
 	while (stash[++i])
 		str[i] = stash[i];
 	while (buf[++p])
@@ -56,34 +56,36 @@ char	*ft_add_buf(char *stash, char *buf, int	index)
 
 char	*ft_copy(char *stash, int *t)
 {
-	char	*str;
+	char	*line;
+	int	l;
 
 	*t = ft_testreturn(stash);
-	str = malloc(sizeof(char) * (*t + 1));
-	if (!str)
+	l = *t;
+	line = malloc(sizeof(char) * (l + 1));
+	if (!line)
 		return (NULL);
-	str[*t] = '\0';
-	while (*t >= 0)
+	line[l] = '\0';
+	while (l-- > 0)
 	{
-		str[*t] = stash[*t];
-		*t = *t - 1;
+		line[l] = stash[l];
+	//	printf("%c", line[l]);
 	}
-	return (str);
+	return (line);
 }
 
-char	*ft_clean(char *stash, int *t)
+char	*ft_clean(char *stash, int t)
 {
-	if (stash[*t + 1] == '\0')
+	if (stash[t] == '\0')
 	{
 		free(stash);
 		return (NULL);
 	}
-	return (stash = movechar(stash, *t));
+	return (stash = movechar(stash, t));
 }
 
 size_t	ft_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])

@@ -6,7 +6,7 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:08:33 by kscordel          #+#    #+#             */
-/*   Updated: 2022/12/30 14:41:44 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:54:44 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main()
 	int    fd;
 	char *line;
 
-	fd = open("./test.txt", O_RDONLY);
+	fd = open("./bible.txt", O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);

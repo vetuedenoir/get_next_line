@@ -6,7 +6,7 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:01:29 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/06 19:36:50 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/09 14:21:37 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ft_read_stack(char *stash, int fd)
 	int	readed;
 
 	readed = 0;
+	index = 0;
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
@@ -46,7 +47,7 @@ char	*ft_read_stack(char *stash, int fd)
 			break;
 		buf[readed] = '\0';
 		index = ft_testreturn(buf);
-		stash = ft_add_buf(stash, buf, index);
+		stash = ft_add_buf(stash, buf, readed);
 	}
 	free(buf);
 	return (stash);
@@ -69,7 +70,7 @@ char	*get_next_line(int fd)
 		line = ft_copy(stash, &t);
 	else
 		return (NULL);
-	stash = ft_clean(stash, &t);
+	stash = ft_clean(stash, t);
 	return (line);
 }	
 
