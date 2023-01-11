@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-size_t	ft_testreturn(const char *s)
+size_t	ft_testreturn(const char *s, char f)
 {
 	size_t	i;
 
@@ -25,6 +25,8 @@ size_t	ft_testreturn(const char *s)
 			return (i + 1);
 		i++;
 	}
+	if (f)
+		return(i);
 	return (0);
 }
 
@@ -45,7 +47,7 @@ char	*ft_read_file(char *stash, int fd)
 		if (!readed || readed == -1)
 			break ;
 		buf[readed] = '\0';
-		index = ft_testreturn(buf);
+		index = ft_testreturn(buf, 0);
 		stash = ft_add_buf(stash, buf, readed);
 	}
 	free(buf);
@@ -54,21 +56,25 @@ char	*ft_read_file(char *stash, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static 	t_reserve	reserve;
 	char		*line;
 	size_t		index;
 	size_t		t;
 
 	index = 0;
-	t = 0;
-	if (stash)
-		index = ft_testreturn(stash);
+	t = reserve.repere;
+	if (reserve.stash)
+		index = ft_testreturn(&reserve.stash[reserve.repere], 0);
 	if (!index)
-		stash = ft_read_file(stash, fd);
-	if (stash)
-		line = ft_copy(stash, &t);
+		reserve.stash = ft_read_file(reserve.stash, fd);
+	if (reserve.stash)
+		line = ft_copy(reserve.stash, &t);
 	else
 		return (NULL);
-	stash = ft_clean(stash, t);
+	reserve.stash = ft_clean(reserve.stash, t);
+	if (reserve.stash)
+		reserve.repere = t;
+	else
+		reserve.repere = 0;
 	return (line);
 }

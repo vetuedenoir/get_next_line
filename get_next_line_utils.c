@@ -55,17 +55,17 @@ char	*ft_copy(char *stash, size_t *t)
 {
 	char	*line;
 	size_t	l;
+	size_t	x;
 
-	*t = ft_testreturn(stash);
-	if (*t == 0)
-		*t = ft_length(stash);
-	l = *t;
+	l = ft_testreturn(&stash[*t], 1);
+	x = *t;
+	*t = *t + l;
 	line = malloc(sizeof(char) * (l + 1));
 	if (!line)
 		return (NULL);
 	line[l] = '\0';
 	while (l-- > 0)
-		line[l] = stash[l];
+		line[l] = stash[x + l];
 	return (line);
 }
 
@@ -76,7 +76,8 @@ char	*ft_clean(char *stash, size_t t)
 		free(stash);
 		return (NULL);
 	}
-	return (stash = movechar(stash, t));
+	return (stash);
+	//return (stash = movechar(stash, t));
 }
 
 size_t	ft_length(const char *str)
