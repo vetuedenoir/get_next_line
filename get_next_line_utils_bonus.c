@@ -6,11 +6,11 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:34:31 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/09 17:50:09 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:29:12 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*movechar(char *str, size_t index)
 {
@@ -23,7 +23,7 @@ char	*movechar(char *str, size_t index)
 	return (str);
 }
 
-char	*ft_add_buf(char *stash, char *buf, size_t readed)
+char	*ft_add_buf(char *stash, char *buf, size_t total)
 {
 	size_t		t;
 	int			i;
@@ -39,7 +39,7 @@ char	*ft_add_buf(char *stash, char *buf, size_t readed)
 	}
 	i = -1;
 	p = -1;
-	t = ft_length(stash) + readed;
+	t = total;
 	str = malloc(sizeof(char) * (t + 1));
 	if (str == NULL)
 		return (free(stash), NULL);
@@ -56,9 +56,7 @@ char	*ft_copy(char *stash, size_t *t)
 	char	*line;
 	size_t	l;
 
-	*t = ft_testreturn(stash);
-	if (*t == 0)
-		*t = ft_length(stash);
+	*t = ft_testreturn(stash, 1);;
 	l = *t;
 	line = malloc(sizeof(char) * (l + 1));
 	if (!line)
@@ -83,6 +81,8 @@ size_t	ft_length(const char *str)
 {
 	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
