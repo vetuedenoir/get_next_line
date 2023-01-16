@@ -6,26 +6,14 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:13:42 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/09 19:03:52 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:28:28 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*movechar(char *str, size_t index)
+char	*ft_add_buf(char *stash, char *buf, int total)
 {
-	size_t	x;
-
-	x = 0;
-	while (str[index])
-		str[x++] = str[index++];
-	str[x] = '\0';
-	return (str);
-}
-
-char	*ft_add_buf(char *stash, char *buf, size_t readed)
-{
-	size_t		t;
 	int			i;
 	int			p;
 	char		*str;
@@ -39,8 +27,7 @@ char	*ft_add_buf(char *stash, char *buf, size_t readed)
 	}
 	i = -1;
 	p = -1;
-	t = ft_length(stash) + readed;
-	str = malloc(sizeof(char) * (t + 1));
+	str = malloc(sizeof(char) * (total + 1));
 	if (str == NULL)
 		return (free(stash), NULL);
 	while (stash[++i])
@@ -51,11 +38,11 @@ char	*ft_add_buf(char *stash, char *buf, size_t readed)
 	return (free(stash), str);
 }
 
-char	*ft_copy(char *stash, size_t *t)
+char	*ft_copy(char *stash, int *t)
 {
 	char	*line;
-	size_t	l;
-	size_t	x;
+	int		l;
+	int		x;
 
 	l = ft_testreturn(&stash[*t], 1);
 	x = *t;
@@ -69,7 +56,7 @@ char	*ft_copy(char *stash, size_t *t)
 	return (line);
 }
 
-char	*ft_clean(char *stash, size_t t)
+char	*ft_clean(char *stash, int t)
 {
 	if (stash[t] == '\0')
 	{
@@ -77,13 +64,14 @@ char	*ft_clean(char *stash, size_t t)
 		return (NULL);
 	}
 	return (stash);
-	//return (stash = movechar(stash, t));
 }
 
-size_t	ft_length(const char *str)
+int	ft_length(const char *str)
 {
-	size_t	i;
+	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;

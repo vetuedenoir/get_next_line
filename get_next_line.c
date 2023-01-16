@@ -6,15 +6,15 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:01:29 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/09 18:47:53 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:31:27 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_testreturn(const char *s, char f)
+int	ft_testreturn(const char *s, char f)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -26,16 +26,18 @@ size_t	ft_testreturn(const char *s, char f)
 		i++;
 	}
 	if (f)
-		return(i);
+		return (i);
 	return (0);
 }
 
-char	*ft_read_file(char *stash, int fd)
+char	*ft_read_file(char *stash, int mark, int fd)
 {
 	char	*buf;
 	int		index;
 	int		readed;
+	int		total;
 
+	total = ft_length(&stash[mark]) + mark;
 	readed = 0;
 	index = 0;
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -48,7 +50,8 @@ char	*ft_read_file(char *stash, int fd)
 			break ;
 		buf[readed] = '\0';
 		index = ft_testreturn(buf, 0);
-		stash = ft_add_buf(stash, buf, readed);
+		total += readed;
+		stash = ft_add_buf(stash, buf, total);
 	}
 	free(buf);
 	return (stash);
@@ -56,25 +59,25 @@ char	*ft_read_file(char *stash, int fd)
 
 char	*get_next_line(int fd)
 {
-	static 	t_reserve	reserve;
-	char		*line;
-	size_t		index;
-	size_t		t;
+	static t_backup		backup;
+	char				*line;
+	int					index;
+	int					t;
 
 	index = 0;
-	t = reserve.repere;
-	if (reserve.stash)
-		index = ft_testreturn(&reserve.stash[reserve.repere], 0);
+	t = backup.mark;
+	if (backup.stash)
+		index = ft_testreturn(&backup.stash[t], 0);
 	if (!index)
-		reserve.stash = ft_read_file(reserve.stash, fd);
-	if (reserve.stash)
-		line = ft_copy(reserve.stash, &t);
+		backup.stash = ft_read_file(backup.stash, t, fd);
+	if (backup.stash)
+		line = ft_copy(backup.stash, &t);
 	else
 		return (NULL);
-	reserve.stash = ft_clean(reserve.stash, t);
-	if (reserve.stash)
-		reserve.repere = t;
+	backup.stash = ft_clean(backup.stash, t);
+	if (backup.stash)
+		backup.mark = t;
 	else
-		reserve.repere = 0;
+		backup.mark = 0;
 	return (line);
 }
