@@ -6,7 +6,7 @@
 /*   By: kscordel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:01:29 by kscordel          #+#    #+#             */
-/*   Updated: 2023/01/14 14:31:27 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:14:26 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*get_next_line(int fd)
 	int					index;
 	int					t;
 
+	if (fd < 0)
+		return (NULL);
 	index = 0;
 	t = backup.mark;
 	if (backup.stash)
