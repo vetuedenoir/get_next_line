@@ -56,7 +56,7 @@ char	*ft_copy(char *stash, size_t *t)
 	char	*line;
 	size_t	l;
 
-	*t = ft_testreturn(stash, 1);;
+	*t = ft_testreturn(stash, 1);
 	l = *t;
 	line = malloc(sizeof(char) * (l + 1));
 	if (!line)
