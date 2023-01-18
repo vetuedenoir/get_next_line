@@ -64,7 +64,7 @@ char	*get_next_line(int fd)
 	size_t		index;
 	size_t		t;
 
-	if (fd < 0 || fd > 1024)
+	if (fd < 0 || fd => 1024)
 		return (NULL);
 	index = 0;
 	t = 0;
