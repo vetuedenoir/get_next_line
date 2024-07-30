@@ -19,6 +19,8 @@ int	main()
 	char *line;
 
 	fd = open("./bible.txt", O_RDONLY);
+	if (fd == -1)
+		return (1);
 	while (1)
 	{
 		line = get_next_line(fd);
